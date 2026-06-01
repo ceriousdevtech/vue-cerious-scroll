@@ -1,0 +1,31 @@
+.basic-row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  border-bottom: 1px solid #eef1f4;
+  border-left: 4px solid transparent;
+}
+
+.basic-row__index {
+  font-variant-numeric: tabular-nums;
+  color: #8a94a6;
+  font-size: 0.8rem;
+  min-width: 84px;
+}
+
+.basic-row__bar {
+  height: 10px;
+  border-radius: 5px;
+  flex: 1;
+  max-width: 60%;
+  opacity: 0.85;
+}
+
+.basic-row__meta {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: #8a94a6;
+  font-variant-numeric: tabular-nums;
+}

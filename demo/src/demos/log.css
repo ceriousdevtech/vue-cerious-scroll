@@ -1,0 +1,100 @@
+.log-scroll {
+  background: #0d1117;
+}
+
+.log-row {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  height: 26px;
+  padding: 0 16px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #c9d1d9;
+  white-space: nowrap;
+  border-bottom: 1px solid #161b22;
+}
+
+.log-row:hover {
+  background: #161b22;
+}
+
+.log-time {
+  color: #6e7681;
+  flex-shrink: 0;
+}
+
+.log-level {
+  font-weight: 700;
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.log-level.ERROR {
+  color: #f85149;
+}
+
+.log-level.WARN {
+  color: #d29922;
+}
+
+.log-level.INFO {
+  color: #58a6ff;
+}
+
+.log-level.DEBUG {
+  color: #a371f7;
+}
+
+.log-service {
+  color: #3fb950;
+  flex-shrink: 0;
+  width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.log-msg {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip {
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  font-size: 0.78rem;
+  font-weight: 650;
+  background: #fff;
+  opacity: 0.45;
+}
+
+.chip.active {
+  opacity: 1;
+}
+
+.chip.ERROR.active {
+  background: #fbe0e2;
+  color: #b3231f;
+  border-color: #f5b5b5;
+}
+
+.chip.WARN.active {
+  background: #fff3cd;
+  color: #8a6100;
+  border-color: #f0d98a;
+}
+
+.chip.INFO.active {
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-color: #b9d4fb;
+}
+
+.chip.DEBUG.active {
+  background: #efe2fe;
+  color: #6d28d9;
+  border-color: #d6bdf8;
+}

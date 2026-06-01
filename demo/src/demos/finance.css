@@ -1,0 +1,63 @@
+.fin-scroll {
+  background: #0b0e14;
+}
+
+.fin-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 120px 130px 110px;
+  align-items: center;
+  height: 52px;
+  padding: 0 18px;
+  gap: 12px;
+  border-bottom: 1px solid #161b22;
+  color: #e6edf3;
+  font-size: 0.85rem;
+}
+
+.fin-row:hover {
+  background: #11151d;
+}
+
+.fin-sym {
+  font-weight: 700;
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.fin-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #9aa4b2;
+}
+
+.fin-name small {
+  display: block;
+  font-size: 0.72rem;
+  color: #6e7681;
+}
+
+.fin-price {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.fin-change {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
+.fin-up {
+  color: #3fb950;
+}
+
+.fin-down {
+  color: #f85149;
+}
+
+.fin-spark {
+  display: block;
+}

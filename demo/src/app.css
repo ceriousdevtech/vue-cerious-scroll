@@ -1,0 +1,285 @@
+/* Global + layout + gallery chrome shared by every demo. */
+
+:root {
+  color-scheme: light;
+  --brand-1: #667eea;
+  --brand-2: #764ba2;
+  --ink: #1f2328;
+  --muted: #57606a;
+  --line: #d0d7de;
+  --bg: #f4f5f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* ---- App shell ---- */
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.topbar__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  color: #fff;
+}
+
+.topbar__brand small {
+  font-weight: 500;
+  opacity: 0.85;
+  font-size: 0.8rem;
+}
+
+.topbar__spacer {
+  flex: 1;
+}
+
+.topbar__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.topbar__link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  opacity: 1;
+}
+
+.fps-meter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  justify-content: center;
+  min-width: 66px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fps-meter__value {
+  font-size: 1rem;
+}
+
+.fps-meter__unit {
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
+.fps-meter--good {
+  color: #7ee787;
+}
+
+.fps-meter--ok {
+  color: #f2cc60;
+}
+
+.fps-meter--bad {
+  color: #ff7b72;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* ---- Gallery ---- */
+
+.gallery {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.gallery__lead {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.demo-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.demo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.18);
+  border-color: var(--brand-1);
+}
+
+.demo-card__emoji {
+  font-size: 1.6rem;
+}
+
+.demo-card__title {
+  margin: 8px 0 4px;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.demo-card__blurb {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+/* ---- Demo page frame (full-height themed apps) ---- */
+
+.demo-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.demo-page__header {
+  padding: 14px 20px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.demo-page__header h1 {
+  margin: 0 0 2px;
+  font-size: 1.15rem;
+}
+
+.demo-page__header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.demo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.demo-toolbar label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.demo-toolbar select,
+.demo-toolbar input[type='number'],
+.demo-toolbar input[type='text'],
+.demo-toolbar input[type='search'] {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.demo-toolbar button {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #f6f8fa;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.demo-toolbar button:hover {
+  background: #eef1f4;
+  border-color: var(--brand-1);
+}
+
+.demo-toolbar button.is-active {
+  background: var(--brand-1);
+  color: #fff;
+  border-color: var(--brand-1);
+}
+
+.demo-toolbar .spacer {
+  flex: 1;
+}
+
+.demo-toolbar .stat {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The scroll surface every demo mounts CeriousScroll into. */
+.demo-scroll {
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+}
+
+.demo-footer {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 8px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid var(--line);
+  font-size: 0.82rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}

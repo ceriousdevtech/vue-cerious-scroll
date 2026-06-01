@@ -1,0 +1,104 @@
+.sql-editor {
+  margin: 0;
+  padding: 12px 18px;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  border-bottom: 1px solid #21262d;
+  flex-shrink: 0;
+}
+
+.sql-editor .kw {
+  color: #ff7b72;
+  font-weight: 600;
+}
+
+.sql-page {
+  --sql-cols: 90px 1fr 1fr 130px 110px 130px;
+}
+
+.sql-head,
+.sql-row {
+  display: grid;
+  grid-template-columns: var(--sql-cols);
+}
+
+.sql-head {
+  background: #f1f3f6;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 650;
+  font-size: 0.8rem;
+  color: #495057;
+  flex-shrink: 0;
+}
+
+.sql-head__cell {
+  padding: 9px 12px;
+  border-right: 1px solid #e3e7ec;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.72rem;
+}
+
+.sql-row {
+  height: 36px;
+  border-bottom: 1px solid #eef1f4;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.sql-row:hover {
+  background: #f6f8fb;
+}
+
+.sql-row.selected {
+  background: #fff7d6;
+}
+
+.sql-cell {
+  padding: 0 12px;
+  border-right: 1px solid #f0f2f5;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sql-cell.num {
+  justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.sql-cell.id {
+  color: #0969da;
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.sql-badge {
+  padding: 1px 9px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.sql-paid {
+  background: #d4f7dc;
+  color: #14532d;
+}
+.sql-pending {
+  background: #fff3cd;
+  color: #7a5b00;
+}
+.sql-refunded {
+  background: #e7ecf3;
+  color: #41506b;
+}
+.sql-failed {
+  background: #fbe0e2;
+  color: #7a1620;
+}

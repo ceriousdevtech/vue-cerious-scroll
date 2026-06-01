@@ -1,0 +1,77 @@
+{
+  "name": "@ceriousdevtech/vue-cerious-scroll",
+  "version": "1.0.1",
+  "description": "Vue 3 bindings for CeriousScroll — high-performance virtual scrolling with O(1) memory and no height estimation",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "LICENSE-MIT",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Cerious DevTech LLC <info@ceriousdevtech.com>",
+  "homepage": "https://github.com/ceriousdevtech/vue-cerious-scroll#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ceriousdevtech/vue-cerious-scroll.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ceriousdevtech/vue-cerious-scroll/issues",
+    "email": "info@ceriousdevtech.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "virtual-scroll",
+    "virtual-scrolling",
+    "infinite-scroll",
+    "performance",
+    "large-lists",
+    "data-grid",
+    "variable-height",
+    "o1-memory",
+    "cerious-scroll"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "vue-tsc --noEmit",
+    "demo": "vite --config demo/vite.config.ts",
+    "demo:build": "vite build --config demo/vite.config.ts"
+  },
+  "peerDependencies": {
+    "@ceriousdevtech/cerious-scroll": "^1.0.1",
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@ceriousdevtech/cerious-scroll": "^1.0.1",
+    "@types/node": "^22.10.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^2.1.8",
+    "vue": "^3.5.13",
+    "vue-router": "^4.6.4",
+    "vue-tsc": "^2.1.10"
+  }
+}

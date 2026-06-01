@@ -1,0 +1,127 @@
+.grid-page {
+  --grid-cols: 60px 130px 160px 230px 130px 110px 150px 130px 90px 120px;
+}
+
+.grid-head,
+.grid-row {
+  display: grid;
+  grid-template-columns: var(--grid-cols);
+  min-width: max-content;
+}
+
+.grid-head {
+  background: #f1f3f6;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 650;
+  font-size: 0.82rem;
+  color: #495057;
+  flex-shrink: 0;
+}
+
+.grid-head__cell {
+  padding: 10px 12px;
+  border-right: 1px solid #e3e7ec;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.grid-head__cell.sortable {
+  cursor: pointer;
+}
+
+.grid-head__cell.sortable:hover {
+  background: #e6e9ee;
+}
+
+.grid-head__sort {
+  margin-left: auto;
+  font-size: 0.7rem;
+  opacity: 0.35;
+}
+
+.grid-head__sort.active {
+  opacity: 1;
+  color: var(--brand-1);
+}
+
+.grid-row {
+  border-bottom: 1px solid #eef1f4;
+  height: 40px;
+  cursor: pointer;
+}
+
+.grid-row:hover {
+  background: #f6f8fb;
+}
+
+.grid-row.selected {
+  background: #e7f0ff;
+}
+
+.grid-cell {
+  padding: 0 12px;
+  border-right: 1px solid #f0f2f5;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grid-cell.num {
+  justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.grid-cell.rownum {
+  justify-content: center;
+  color: #8a94a6;
+  background: #fafbfc;
+  font-size: 0.78rem;
+}
+
+.grid-cell.id {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  color: #0969da;
+}
+
+.grid-cell.email {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.cell-positive {
+  color: #1a7f37;
+}
+
+.cell-negative {
+  color: #cf222e;
+}
+
+.badge {
+  padding: 2px 10px;
+  border-radius: 11px;
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.status-active {
+  background: #d4f7dc;
+  color: #14532d;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #7a5b00;
+}
+
+.status-inactive {
+  background: #fbe0e2;
+  color: #7a1620;
+}

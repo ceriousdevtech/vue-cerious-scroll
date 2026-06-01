@@ -1,0 +1,62 @@
+.code-scroll {
+  background: #0d1117;
+}
+
+.code-row {
+  display: flex;
+  align-items: stretch;
+  height: 22px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 22px;
+  white-space: pre;
+}
+
+.code-row:hover {
+  background: #161b22;
+}
+
+.code-row.match {
+  background: #2d2a00;
+}
+
+.code-gutter {
+  width: 64px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-right: 14px;
+  color: #6e7681;
+  background: #0d1117;
+  border-right: 1px solid #21262d;
+  user-select: none;
+}
+
+.code-text {
+  padding-left: 14px;
+  color: #c9d1d9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tok-comment {
+  color: #8b949e;
+  font-style: italic;
+}
+.tok-keyword {
+  color: #ff7b72;
+}
+.tok-string {
+  color: #a5d6ff;
+}
+.tok-number {
+  color: #79c0ff;
+}
+.tok-fn {
+  color: #d2a8ff;
+}
+.tok-punct {
+  color: #c9d1d9;
+}
+.tok-plain {
+  color: #e6edf3;
+}

@@ -42,18 +42,7 @@ jobs:
       - name: Assemble site
         run: |
           mkdir -p _site
-          
-          # The Vite demo build outputs to demo/dist — copy as the site root
           cp -r demo/dist/. _site/
-          
-          # Also expose the built library files under /dist for CDN-style linking
-          mkdir -p _site/dist
-          cp -r dist/. _site/dist/
-          
-          # Copy README and license
-          cp README.md _site/
-          cp LICENSE _site/
-          cp LICENSE-MIT _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

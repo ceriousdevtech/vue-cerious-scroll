@@ -17,8 +17,8 @@
   "files": [
     "dist",
     "LICENSE",
-    "LICENSE-MIT",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "sideEffects": false,
   "license": "MIT",

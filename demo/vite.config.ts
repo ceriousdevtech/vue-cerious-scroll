@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
@@ -8,6 +9,11 @@ const engineEntry = fileURLToPath(
   new URL('../../cerious-scroll/src/index.ts', import.meta.url),
 );
 const engineRoot = fileURLToPath(new URL('../../cerious-scroll', import.meta.url));
+// Only wire the sibling-engine alias when its source tree is actually present
+// on disk (i.e. the monorepo-style local checkout). In CI / consumer installs
+// the alias would point at a non-existent path and break the build, so we let
+// Vite resolve `@ceriousdevtech/cerious-scroll` from node_modules instead.
+const hasSiblingEngine = existsSync(engineEntry);
 
 // The demo imports the wrapper by its package name, aliased to the library
 // source so changes are picked up live without a separate build step. The
@@ -18,7 +24,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@ceriousdevtech/vue-cerious-scroll': libEntry,
-      '@ceriousdevtech/cerious-scroll': engineEntry,
+      ...(hasSiblingEngine ? { '@ceriousdevtech/cerious-scroll': engineEntry } : {}),
     },
   },
   server: {

@@ -6,7 +6,9 @@ import { makeResult, SQL_COLUMNS, SQL_TOTAL, sqlStatusClass } from './sql.data';
 import './sql.css';
 
 const scroll = ref<InstanceType<typeof CeriousScroll> | null>(null);
+const hScroll = ref<HTMLDivElement | null>(null);
 const selected = ref<number | null>(null);
+const sqlOptions = { touch: { enabled: true, getHorizontalScrollTarget: () => hScroll.value } };
 
 function select(i: number): void {
   selected.value = i;
@@ -34,26 +36,30 @@ const r = (i: number) => makeResult(i);
       <span class="stat">Selected row: <strong>{{ selected === null ? '—' : r(selected).id }}</strong></span>
     </div>
 
-    <div class="sql-head">
-      <div v-for="c in SQL_COLUMNS" :key="c" class="sql-head__cell">{{ c }}</div>
-    </div>
-
     <CeriousScroll
       ref="scroll"
-      class="demo-scroll"
+      class="demo-scroll sql-scroll"
       :total-elements="SQL_TOTAL"
       :get-item="(i: number) => i"
+      :options="sqlOptions"
     >
-      <template #item="{ item: i }">
-        <div class="sql-row" :class="{ selected: selected === i }" @click="select(i)">
-          <div class="sql-cell id">{{ r(i).id }}</div>
-          <div class="sql-cell">{{ r(i).customer }}</div>
-          <div class="sql-cell">{{ r(i).product }}</div>
-          <div class="sql-cell num">${{ r(i).amount.toLocaleString() }}</div>
-          <div class="sql-cell"><span class="sql-badge" :class="sqlStatusClass(r(i).status)">{{ r(i).status }}</span></div>
-          <div class="sql-cell">{{ r(i).date }}</div>
+      <div class="sql-h-scroll" ref="hScroll">
+        <div class="sql-head">
+          <div v-for="c in SQL_COLUMNS" :key="c" class="sql-head__cell">{{ c }}</div>
         </div>
-      </template>
+        <div data-cerious-scroll-content class="sql-scroll-content"></div>
+      </div>
+
+      <template #item="{ item: i }">
+            <div class="sql-row" :class="{ selected: selected === i }" @click="select(i)">
+              <div class="sql-cell id">{{ r(i).id }}</div>
+              <div class="sql-cell">{{ r(i).customer }}</div>
+              <div class="sql-cell">{{ r(i).product }}</div>
+              <div class="sql-cell num">${{ r(i).amount.toLocaleString() }}</div>
+              <div class="sql-cell"><span class="sql-badge" :class="sqlStatusClass(r(i).status)">{{ r(i).status }}</span></div>
+              <div class="sql-cell">{{ r(i).date }}</div>
+            </div>
+          </template>
     </CeriousScroll>
   </div>
 </template>

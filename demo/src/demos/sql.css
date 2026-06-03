@@ -17,13 +17,39 @@
 }
 
 .sql-page {
-  --sql-cols: 90px 1fr 1fr 130px 110px 130px;
+  --sql-cols: 90px 220px 220px 130px 110px 130px;
+}
+
+.sql-scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.sql-h-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: max-content;
+}
+
+.sql-scroll-content {
+  position: relative;
+  width: 100%;
 }
 
 .sql-head,
 .sql-row {
   display: grid;
   grid-template-columns: var(--sql-cols);
+}
+
+.sql-head {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .sql-head {

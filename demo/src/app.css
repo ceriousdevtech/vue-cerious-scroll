@@ -283,3 +283,235 @@ body {
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
 }
+
+/* ---- Mobile (<= 768px) ---- */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .topbar__brand {
+    font-size: 0.95rem;
+    gap: 4px;
+  }
+  .topbar__brand small {
+    display: none;
+  }
+  .topbar__link {
+    font-size: 0.8rem;
+    padding: 4px 6px;
+  }
+
+  .gallery {
+    padding: 18px 14px 32px;
+  }
+  .gallery__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-page__header {
+    padding: 10px 14px;
+  }
+  .demo-page__header h1 {
+    font-size: 1rem;
+  }
+  .demo-page__header p {
+    font-size: 0.78rem;
+  }
+
+  .demo-toolbar {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .demo-toolbar label {
+    font-size: 0.8rem;
+  }
+  .demo-toolbar select,
+  .demo-toolbar input[type='number'],
+  .demo-toolbar input[type='text'],
+  .demo-toolbar input[type='search'] {
+    font-size: 16px; /* prevents iOS focus zoom */
+    padding: 8px 10px;
+    min-height: 38px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .demo-toolbar input[type='search'],
+  .demo-toolbar input[type='text'] {
+    flex: 1 1 100%;
+  }
+  .demo-toolbar button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    min-height: 38px;
+    flex: 1 1 auto;
+  }
+  .demo-toolbar .spacer {
+    display: none;
+  }
+  .demo-toolbar .stat {
+    flex: 1 1 100%;
+    text-align: right;
+  }
+
+  .demo-footer {
+    padding: 8px 12px;
+    gap: 12px;
+    font-size: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Chat */
+  .msg {
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .msg__avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+  .msg__body {
+    max-width: 82%;
+  }
+  .msg__bubble {
+    font-size: 0.88rem;
+    padding: 7px 11px;
+  }
+  .chat-composer {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  .chat-composer textarea {
+    font-size: 16px; /* prevents iOS zoom */
+    padding: 8px 12px;
+  }
+  .chat-composer button {
+    padding: 0 14px;
+    min-height: 40px;
+  }
+
+  /* Code viewer — allow horizontal scroll for long lines */
+  .code-scroll {
+    overflow-x: auto;
+  }
+  .code-row {
+    font-size: 0.74rem;
+    height: 20px;
+    line-height: 20px;
+  }
+  .code-gutter {
+    width: 42px;
+    padding-right: 8px;
+  }
+  .code-text {
+    padding-left: 10px;
+  }
+
+  /* Data grid — keeps its own horizontal scroll via the wrapper */
+  .grid-head__cell,
+  .grid-cell {
+    font-size: 0.8rem;
+    padding: 0 8px;
+  }
+  .grid-head__cell {
+    padding: 8px 8px;
+  }
+
+  /* Finance — collapse to compact 3-column row */
+  .fin-row {
+    grid-template-columns: 72px 1fr 90px;
+    gap: 8px;
+    padding: 0 12px;
+    height: 48px;
+    font-size: 0.82rem;
+  }
+  .fin-change,
+  .fin-spark {
+    display: none;
+  }
+
+  /* Git history */
+  .commit {
+    padding: 8px 12px;
+  }
+  .commit__row {
+    gap: 8px;
+  }
+  .commit__msg {
+    font-size: 0.85rem;
+  }
+  .commit__sub {
+    font-size: 0.72rem;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .commit__files {
+    margin: 6px 0 0 0;
+  }
+  .commit__file {
+    font-size: 0.74rem;
+    gap: 6px;
+  }
+
+  /* Log viewer — drop the service column */
+  .log-row {
+    padding: 0 10px;
+    gap: 8px;
+    font-size: 0.74rem;
+  }
+  .log-service {
+    display: none;
+  }
+  .log-level {
+    width: 44px;
+  }
+
+  /* Shop / ecommerce */
+  .product {
+    padding: 10px 12px;
+    gap: 10px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .product__img {
+    width: 64px;
+    height: 64px;
+    font-size: 1.8rem;
+  }
+  .product__body {
+    flex: 1 1 calc(100% - 80px);
+  }
+  .product__name {
+    font-size: 0.92rem;
+  }
+  .product__aside {
+    flex: 1 1 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-top: 4px;
+  }
+  .product__price {
+    font-size: 1.05rem;
+  }
+  .product__add {
+    padding: 8px 16px;
+    min-height: 40px;
+  }
+
+  /* SQL results — keeps horizontal scroll via fixed grid template */
+  .sql-editor {
+    font-size: 0.78rem;
+    padding: 10px 12px;
+  }
+  .sql-head__cell,
+  .sql-cell {
+    padding: 0 8px;
+    font-size: 0.78rem;
+  }
+  .sql-head__cell {
+    padding: 8px;
+  }
+}

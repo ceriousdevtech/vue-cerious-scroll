@@ -87,10 +87,14 @@ export const CeriousScroll = defineComponent({
     });
 
     return () =>
-      h('div', {
-        ref: api.containerRef,
-        // User-supplied class/style/attrs fall through and merge onto this root.
-        style: { position: 'relative', overflow: 'hidden' },
-      });
+      h(
+        'div',
+        {
+          ref: api.containerRef,
+          // User-supplied class/style/attrs fall through and merge onto this root.
+          style: { position: 'relative', overflow: 'hidden' },
+        },
+        slots.default?.(),
+      );
   },
 });

@@ -13,6 +13,8 @@ import {
 import './data-grid.css';
 
 const scroll = ref<InstanceType<typeof CeriousScroll> | null>(null);
+const hScroll = ref<HTMLDivElement | null>(null);
+const gridOptions = { touch: { enabled: true, getHorizontalScrollTarget: () => hScroll.value } };
 
 const query = ref('');
 const debounced = ref('');
@@ -80,45 +82,53 @@ const row = (src: number) => makeRow(src);
       <span class="stat"><strong>{{ order.length.toLocaleString() }}</strong> rows</span>
     </div>
 
-    <div class="grid-head">
-      <div
-        v-for="c in GRID_COLUMNS"
-        :key="c.key"
-        class="grid-head__cell"
-        :class="{ sortable: c.sortable }"
-        @click="c.sortable && toggleSort(c.key)"
-      >
-        {{ c.label }}
-        <span v-if="c.sortable" class="grid-head__sort" :class="{ active: sortCol === c.key }">
-          {{ sortCol === c.key ? (sortDir === 'asc' ? '▲' : '▼') : '⇅' }}
-        </span>
-      </div>
-    </div>
-
-    <CeriousScroll ref="scroll" class="demo-scroll" :items="order">
-      <template #item="{ item: src }">
-        <div
-          class="grid-row"
-          :class="{ selected: selected.has(src) }"
-          @click="clickRow(src, $event.ctrlKey || $event.metaKey)"
-        >
-          <div class="grid-cell rownum">{{ row(src).index + 1 }}</div>
-          <div class="grid-cell id">{{ row(src).id }}</div>
-          <div class="grid-cell">{{ row(src).name }}</div>
-          <div class="grid-cell email">{{ row(src).email }}</div>
-          <div class="grid-cell">{{ row(src).department }}</div>
-          <div class="grid-cell">
-            <span class="badge" :class="statusClass(row(src).status)">{{ row(src).status }}</span>
+    <CeriousScroll
+      ref="scroll"
+      class="demo-scroll grid-scroll"
+      :items="order"
+      :options="gridOptions"
+    >
+      <div class="grid-h-scroll" ref="hScroll">
+        <div class="grid-head">
+          <div
+            v-for="c in GRID_COLUMNS"
+            :key="c.key"
+            class="grid-head__cell"
+            :class="{ sortable: c.sortable }"
+            @click="c.sortable && toggleSort(c.key)"
+          >
+            {{ c.label }}
+            <span v-if="c.sortable" class="grid-head__sort" :class="{ active: sortCol === c.key }">
+              {{ sortCol === c.key ? (sortDir === 'asc' ? '▲' : '▼') : '⇅' }}
+            </span>
           </div>
-          <div class="grid-cell">{{ row(src).region }}</div>
-          <div class="grid-cell num" :class="row(src).revenue >= 0 ? 'cell-positive' : 'cell-negative'">
-            {{ row(src).revenue >= 0 ? '+' : '−' }}${{ Math.abs(row(src).revenue).toLocaleString() }}
-          </div>
-          <div class="grid-cell num">{{ row(src).score.toFixed(1) }}</div>
-          <div class="grid-cell">{{ row(src).date }}</div>
         </div>
-      </template>
-    </CeriousScroll>
+        <div data-cerious-scroll-content class="grid-scroll-content"></div>
+      </div>
+
+      <template #item="{ item: src }">
+            <div
+              class="grid-row"
+              :class="{ selected: selected.has(src) }"
+              @click="clickRow(src, $event.ctrlKey || $event.metaKey)"
+            >
+              <div class="grid-cell rownum">{{ row(src).index + 1 }}</div>
+              <div class="grid-cell id">{{ row(src).id }}</div>
+              <div class="grid-cell">{{ row(src).name }}</div>
+              <div class="grid-cell email">{{ row(src).email }}</div>
+              <div class="grid-cell">{{ row(src).department }}</div>
+              <div class="grid-cell">
+                <span class="badge" :class="statusClass(row(src).status)">{{ row(src).status }}</span>
+              </div>
+              <div class="grid-cell">{{ row(src).region }}</div>
+              <div class="grid-cell num" :class="row(src).revenue >= 0 ? 'cell-positive' : 'cell-negative'">
+                {{ row(src).revenue >= 0 ? '+' : '−' }}${{ Math.abs(row(src).revenue).toLocaleString() }}
+              </div>
+              <div class="grid-cell num">{{ row(src).score.toFixed(1) }}</div>
+              <div class="grid-cell">{{ row(src).date }}</div>
+            </div>
+          </template>
+        </CeriousScroll>
 
     <div class="demo-footer">
       <span>Selected: <strong>{{ selected.size }}</strong></span>

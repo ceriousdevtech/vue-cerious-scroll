@@ -2,20 +2,41 @@
   --grid-cols: 60px 130px 160px 230px 130px 110px 150px 130px 90px 120px;
 }
 
+.grid-scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.grid-h-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: max-content;
+}
+
+.grid-scroll-content {
+  position: relative;
+  width: 100%;
+}
+
 .grid-head,
 .grid-row {
   display: grid;
   grid-template-columns: var(--grid-cols);
-  min-width: max-content;
 }
 
 .grid-head {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background: #f1f3f6;
   border-bottom: 2px solid #dee2e6;
   font-weight: 650;
   font-size: 0.82rem;
   color: #495057;
-  flex-shrink: 0;
 }
 
 .grid-head__cell {

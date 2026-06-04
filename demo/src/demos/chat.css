@@ -1,5 +1,5 @@
 .chat-scroll {
-  background: #f7f8fb;
+  background: transparent;
 }
 
 .msg {
@@ -41,33 +41,34 @@
   gap: 8px;
   align-items: baseline;
   font-size: 0.72rem;
-  color: #8a94a6;
+  color: var(--muted);
 }
 
 .msg__name {
   font-weight: 650;
-  color: #495057;
+  color: var(--text);
 }
 
 .msg__bubble {
-  background: #fff;
-  border: 1px solid #e8ebf0;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 14px;
   border-bottom-left-radius: 4px;
   padding: 8px 13px;
   font-size: 0.9rem;
   line-height: 1.45;
-  color: #1f2328;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+  color: var(--text);
+  box-shadow: none;
   word-break: break-word;
 }
 
 .msg.sent .msg__bubble {
-  background: linear-gradient(135deg, #4f8cff, #2f6bff);
-  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #061019;
   border-color: transparent;
   border-radius: 14px;
   border-bottom-right-radius: 4px;
+  font-weight: 600;
 }
 
 .msg__reactions {
@@ -76,19 +77,19 @@
 }
 
 .msg__reaction {
-  background: #fff;
-  border: 1px solid #e8ebf0;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 10px;
   padding: 1px 7px;
   font-size: 0.72rem;
-  color: #57606a;
+  color: var(--muted);
 }
 
 .chat-composer {
   display: flex;
   gap: 8px;
   padding: 10px 16px;
-  background: #fff;
+  background: var(--panel);
   border-top: 1px solid var(--line);
   flex-shrink: 0;
 }
@@ -102,15 +103,23 @@
   font-size: 0.9rem;
   font-family: inherit;
   max-height: 96px;
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+}
+
+.chat-composer textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(120,243,210,.22);
+  outline: none;
 }
 
 .chat-composer button {
   border: none;
   border-radius: 18px;
   padding: 0 18px;
-  background: linear-gradient(135deg, #4f8cff, #2f6bff);
-  color: #fff;
-  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #061019;
+  font-weight: 800;
   cursor: pointer;
 }
 

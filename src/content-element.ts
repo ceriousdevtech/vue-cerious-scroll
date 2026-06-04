@@ -27,7 +27,16 @@ export function ensureContentElement(container: HTMLElement): HTMLElement {
   el.style.position = 'relative';
   el.style.width = '100%';
   el.style.height = '100%';
-  el.style.overflow = 'hidden';
+  // overflow-y: clip + overflow-x: auto: clip vertical row overflow (engine
+  // owns vertical) and let the inner element own the native horizontal
+  // scrollbar when consumer content (e.g. wide spreadsheet) overflows.
+  // Horizontal scroll must NOT move to the outer container or the cerious
+  // sibling-driver vertical scrollbar (`position: absolute; right: 0` inside
+  // the outer) would translate with the content. The engine reads its
+  // viewport height from this element so the bottom row stays clear of the
+  // h-scrollbar gutter when it appears.
+  el.style.overflowY = 'clip';
+  el.style.overflowX = 'auto';
   container.appendChild(el);
   return el;
 }

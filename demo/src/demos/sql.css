@@ -1,13 +1,13 @@
 .sql-editor {
   margin: 0;
   padding: 12px 18px;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: #02050a;
+  color: var(--accent);
   font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 0.82rem;
   line-height: 1.5;
   white-space: pre-wrap;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--line);
   flex-shrink: 0;
 }
 
@@ -53,17 +53,17 @@
 }
 
 .sql-head {
-  background: #f1f3f6;
-  border-bottom: 2px solid #dee2e6;
+  background: #11141d;
+  border-bottom: 2px solid var(--line);
   font-weight: 650;
   font-size: 0.8rem;
-  color: #495057;
+  color: var(--muted);
   flex-shrink: 0;
 }
 
 .sql-head__cell {
   padding: 9px 12px;
-  border-right: 1px solid #e3e7ec;
+  border-right: 1px solid var(--line);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   font-size: 0.72rem;
@@ -71,27 +71,28 @@
 
 .sql-row {
   height: 36px;
-  border-bottom: 1px solid #eef1f4;
+  border-bottom: 1px solid var(--line);
   cursor: pointer;
   font-size: 0.85rem;
 }
 
 .sql-row:hover {
-  background: #f6f8fb;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .sql-row.selected {
-  background: #fff7d6;
+  background: rgba(120, 243, 210, 0.1);
 }
 
 .sql-cell {
   padding: 0 12px;
-  border-right: 1px solid #f0f2f5;
+  border-right: 1px solid var(--line);
   display: flex;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--text);
 }
 
 .sql-cell.num {
@@ -101,7 +102,7 @@
 }
 
 .sql-cell.id {
-  color: #0969da;
+  color: var(--accent);
   font-family: ui-monospace, Menlo, monospace;
 }
 
@@ -113,18 +114,18 @@
 }
 
 .sql-paid {
-  background: #d4f7dc;
-  color: #14532d;
+  background: rgba(126, 231, 135, 0.15);
+  color: #7ee787;
 }
 .sql-pending {
-  background: #fff3cd;
-  color: #7a5b00;
+  background: rgba(242, 204, 96, 0.15);
+  color: #f2cc60;
 }
 .sql-refunded {
-  background: #e7ecf3;
-  color: #41506b;
+  background: rgba(140, 183, 255, 0.15);
+  color: var(--accent-2);
 }
 .sql-failed {
-  background: #fbe0e2;
-  color: #7a1620;
+  background: rgba(255, 123, 114, 0.15);
+  color: #ff7b72;
 }

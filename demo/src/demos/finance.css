@@ -1,5 +1,5 @@
 .fin-scroll {
-  background: #0b0e14;
+  background: transparent;
 }
 
 .fin-row {
@@ -9,18 +9,19 @@
   height: 52px;
   padding: 0 18px;
   gap: 12px;
-  border-bottom: 1px solid #161b22;
-  color: #e6edf3;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
   font-size: 0.85rem;
 }
 
 .fin-row:hover {
-  background: #11151d;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .fin-sym {
   font-weight: 700;
   font-family: ui-monospace, Menlo, monospace;
+  color: var(--text);
 }
 
 .fin-name {
@@ -28,13 +29,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #9aa4b2;
+  color: var(--muted);
 }
 
 .fin-name small {
   display: block;
   font-size: 0.72rem;
-  color: #6e7681;
+  color: var(--muted);
 }
 
 .fin-price {
@@ -42,6 +43,7 @@
   font-variant-numeric: tabular-nums;
   font-weight: 650;
   font-family: ui-monospace, Menlo, monospace;
+  color: var(--text);
 }
 
 .fin-change {
@@ -51,11 +53,11 @@
 }
 
 .fin-up {
-  color: #3fb950;
+  color: var(--accent);
 }
 
 .fin-down {
-  color: #f85149;
+  color: #ff7b72;
 }
 
 .fin-spark {

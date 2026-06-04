@@ -1,5 +1,5 @@
 .code-scroll {
-  background: #0d1117;
+  background: #02050a;
 }
 
 .code-row {
@@ -13,11 +13,11 @@
 }
 
 .code-row:hover {
-  background: #161b22;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .code-row.match {
-  background: #2d2a00;
+  background: rgba(120, 243, 210, 0.08);
 }
 
 .code-gutter {
@@ -25,28 +25,28 @@
   flex-shrink: 0;
   text-align: right;
   padding-right: 14px;
-  color: #6e7681;
-  background: #0d1117;
-  border-right: 1px solid #21262d;
+  color: var(--muted);
+  background: #02050a;
+  border-right: 1px solid var(--line);
   user-select: none;
 }
 
 .code-text {
   padding-left: 14px;
-  color: #c9d1d9;
+  color: var(--accent);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .tok-comment {
-  color: #8b949e;
+  color: var(--muted);
   font-style: italic;
 }
 .tok-keyword {
   color: #ff7b72;
 }
 .tok-string {
-  color: #a5d6ff;
+  color: var(--accent-2);
 }
 .tok-number {
   color: #79c0ff;
@@ -55,8 +55,8 @@
   color: #d2a8ff;
 }
 .tok-punct {
-  color: #c9d1d9;
+  color: var(--text);
 }
 .tok-plain {
-  color: #e6edf3;
+  color: var(--text);
 }

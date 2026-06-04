@@ -32,16 +32,16 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #f1f3f6;
-  border-bottom: 2px solid #dee2e6;
+  background: #11141d;
+  border-bottom: 2px solid var(--line);
   font-weight: 650;
   font-size: 0.82rem;
-  color: #495057;
+  color: var(--muted);
 }
 
 .grid-head__cell {
   padding: 10px 12px;
-  border-right: 1px solid #e3e7ec;
+  border-right: 1px solid var(--line);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -55,43 +55,45 @@
 }
 
 .grid-head__cell.sortable:hover {
-  background: #e6e9ee;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .grid-head__sort {
   margin-left: auto;
   font-size: 0.7rem;
   opacity: 0.35;
+  color: var(--accent);
 }
 
 .grid-head__sort.active {
   opacity: 1;
-  color: var(--brand-1);
+  color: var(--accent);
 }
 
 .grid-row {
-  border-bottom: 1px solid #eef1f4;
+  border-bottom: 1px solid var(--line);
   height: 40px;
   cursor: pointer;
 }
 
 .grid-row:hover {
-  background: #f6f8fb;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .grid-row.selected {
-  background: #e7f0ff;
+  background: rgba(120, 243, 210, 0.1);
 }
 
 .grid-cell {
   padding: 0 12px;
-  border-right: 1px solid #f0f2f5;
+  border-right: 1px solid var(--line);
   font-size: 0.85rem;
   display: flex;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--text);
 }
 
 .grid-cell.num {
@@ -102,27 +104,27 @@
 
 .grid-cell.rownum {
   justify-content: center;
-  color: #8a94a6;
-  background: #fafbfc;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
   font-size: 0.78rem;
 }
 
 .grid-cell.id {
   font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-  color: #0969da;
+  color: var(--accent);
 }
 
 .grid-cell.email {
-  color: #6c757d;
+  color: var(--muted);
   font-size: 0.8rem;
 }
 
 .cell-positive {
-  color: #1a7f37;
+  color: #7ee787;
 }
 
 .cell-negative {
-  color: #cf222e;
+  color: #ff7b72;
 }
 
 .badge {
@@ -133,16 +135,16 @@
 }
 
 .status-active {
-  background: #d4f7dc;
-  color: #14532d;
+  background: rgba(126, 231, 135, 0.15);
+  color: #7ee787;
 }
 
 .status-pending {
-  background: #fff3cd;
-  color: #7a5b00;
+  background: rgba(242, 204, 96, 0.15);
+  color: #f2cc60;
 }
 
 .status-inactive {
-  background: #fbe0e2;
-  color: #7a1620;
+  background: rgba(255, 123, 114, 0.15);
+  color: #ff7b72;
 }

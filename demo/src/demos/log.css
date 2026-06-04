@@ -1,5 +1,5 @@
 .log-scroll {
-  background: #0d1117;
+  background: #02050a;
 }
 
 .log-row {
@@ -10,17 +10,17 @@
   padding: 0 16px;
   font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   font-size: 0.8rem;
-  color: #c9d1d9;
+  color: var(--text);
   white-space: nowrap;
-  border-bottom: 1px solid #161b22;
+  border-bottom: 1px solid var(--line);
 }
 
 .log-row:hover {
-  background: #161b22;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .log-time {
-  color: #6e7681;
+  color: var(--muted);
   flex-shrink: 0;
 }
 
@@ -31,15 +31,15 @@
 }
 
 .log-level.ERROR {
-  color: #f85149;
+  color: #ff7b72;
 }
 
 .log-level.WARN {
-  color: #d29922;
+  color: #f2cc60;
 }
 
 .log-level.INFO {
-  color: #58a6ff;
+  color: var(--accent-2);
 }
 
 .log-level.DEBUG {
@@ -47,7 +47,7 @@
 }
 
 .log-service {
-  color: #3fb950;
+  color: var(--accent);
   flex-shrink: 0;
   width: 96px;
   overflow: hidden;
@@ -57,6 +57,7 @@
 .log-msg {
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--text);
 }
 
 .chip {
@@ -67,7 +68,8 @@
   border: 1px solid var(--line);
   font-size: 0.78rem;
   font-weight: 650;
-  background: #fff;
+  background: rgba(255,255,255,.06);
+  color: var(--muted);
   opacity: 0.45;
 }
 
@@ -76,25 +78,25 @@
 }
 
 .chip.ERROR.active {
-  background: #fbe0e2;
-  color: #b3231f;
-  border-color: #f5b5b5;
+  background: rgba(255, 123, 114, 0.15);
+  color: #ff7b72;
+  border-color: #ff7b72;
 }
 
 .chip.WARN.active {
-  background: #fff3cd;
-  color: #8a6100;
-  border-color: #f0d98a;
+  background: rgba(242, 204, 96, 0.15);
+  color: #f2cc60;
+  border-color: #f2cc60;
 }
 
 .chip.INFO.active {
-  background: #dbeafe;
-  color: #1d4ed8;
-  border-color: #b9d4fb;
+  background: rgba(140, 183, 255, 0.15);
+  color: var(--accent-2);
+  border-color: var(--accent-2);
 }
 
 .chip.DEBUG.active {
-  background: #efe2fe;
-  color: #6d28d9;
-  border-color: #d6bdf8;
+  background: rgba(167, 139, 250, 0.15);
+  color: #a371f7;
+  border-color: #a371f7;
 }

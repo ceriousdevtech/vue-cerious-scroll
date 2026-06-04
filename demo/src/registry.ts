@@ -5,6 +5,7 @@
 import type { Component } from 'vue';
 
 import BasicDemo from './demos/BasicDemo.vue';
+import ComparisonDemo from './demos/ComparisonDemo.vue';
 import DataGridDemo from './demos/DataGridDemo.vue';
 import ChatDemo from './demos/ChatDemo.vue';
 import LogViewerDemo from './demos/LogViewerDemo.vue';
@@ -23,6 +24,14 @@ export interface DemoMeta {
 }
 
 export const DEMOS: DemoMeta[] = [
+  {
+    slug: 'comparison',
+    title: 'vs TanStack Virtual',
+    emoji: '⚔️',
+    blurb:
+      'Side-by-side stress test against @tanstack/vue-virtual across 5 scenarios: dynamic heights, expanding rows, async images, millions of rows, and continuous updates.',
+    component: ComparisonDemo,
+  },
   {
     slug: 'basic',
     title: 'Basic / Vanilla',

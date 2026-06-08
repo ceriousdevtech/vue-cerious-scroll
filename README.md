@@ -113,8 +113,9 @@ const { containerRef } = useCeriousScroll({
 | `autoRender` | `boolean` | Re-render on scroll/resize/data changes. Default `true`. |
 
 The row is provided by the **`#item` scoped slot** (`{ item, index }`) or the
-`render-item` prop. Apply `class` / `style` directly to the component — they fall
-through onto the scroll container (set a height!).
+`render-item` prop. In table mode, a **`#header` slot** renders the `<thead>` row
+(see [Table layout](#table-layout)). Apply `class` / `style` directly to the
+component — they fall through onto the scroll container (set a height!).
 
 ### Events
 
@@ -135,6 +136,36 @@ const scroll = ref<InstanceType<typeof CeriousScroll> | null>(null);
 // scroll.value?.recalculate(); // drop cached heights + re-measure (see Notes)
 // scroll.value?.scroller;      // the raw engine
 ```
+
+---
+
+## Table layout
+
+Pass `:options="{ layout: 'table' }"` to render real `<table>` / `<tr>` / `<td>` rows with a frozen header and native column alignment. The `#item` slot returns the row's `<td>` cells; a `#header` slot provides the (declarative, reactive) `<thead>` row:
+
+```vue
+<CeriousScroll
+  class="my-scroll"
+  :total-elements="100000"
+  :get-item="(i) => i"
+  :options="{ layout: 'table', table: { tableClassName: 'my-table', autoSizeColumns: true } }"
+>
+  <template #header>
+    <tr><th v-for="c in columns" :key="c.key">{{ c.label }}</th></tr>
+  </template>
+
+  <template #item="{ item: index }">
+    <td>{{ row(index).id }}</td>
+    <td>{{ row(index).name }}</td>
+    <td>{{ row(index).email }}</td>
+  </template>
+</CeriousScroll>
+```
+
+- The **`#header` slot** renders into the engine's `<thead>` (same `<table>` as the rows → native column alignment, frozen header) and stays reactive.
+- The **`#item` slot must return `<td>`s**. They render into the row's `<tr>` via a `display: contents` wrapper that isolates Vue's renderer from the engine's row recycling.
+- **`table.autoSizeColumns`** measures column widths once and pins them (auto-sized + stable); or use `table.columnWidths`. Variable row heights work as usual.
+- CSS: `border-collapse: separate` and an **opaque `<thead>` background** (see the core README's [Table Layout](https://github.com/ceriousdevtech/cerious-scroll#-table-layout-layout-table) notes).
 
 ---
 

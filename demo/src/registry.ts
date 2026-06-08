@@ -7,6 +7,7 @@ import type { Component } from 'vue';
 import BasicDemo from './demos/BasicDemo.vue';
 import ComparisonDemo from './demos/ComparisonDemo.vue';
 import DataGridDemo from './demos/DataGridDemo.vue';
+import TableDemo from './demos/TableDemo.vue';
 import ChatDemo from './demos/ChatDemo.vue';
 import LogViewerDemo from './demos/LogViewerDemo.vue';
 import CodeViewerDemo from './demos/CodeViewerDemo.vue';
@@ -46,6 +47,13 @@ export const DEMOS: DemoMeta[] = [
     emoji: '📊',
     blurb: 'Multi-column grid with sortable headers, live search, and Ctrl/Cmd multi-select.',
     component: DataGridDemo,
+  },
+  {
+    slug: 'table',
+    title: 'Native Table',
+    emoji: '🧮',
+    blurb: "Real <table>/<tr>/<td> rows via layout:'table' — frozen header, aligned columns, single tbody transform. Virtualizes millions of rows with ~25 DOM rows.",
+    component: TableDemo,
   },
   {
     slug: 'chat',

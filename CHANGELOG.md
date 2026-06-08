@@ -5,6 +5,15 @@ All notable changes to vue-cerious-scroll will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2026-06-08
+
+### Added
+- **Table mode support** (`:options="{ layout: 'table' }"`). Rows render as real `<td>` cells into the engine's `<tr>`. Each row renders into its own `display: contents` wrapper, isolating Vue's renderer from the engine's `<tr>` recycling (so a fast scroll can't tear nodes out from under Vue) while the cells still lay out as the row's columns.
+- **`#header` slot**. Declarative header (a `<tr>` of `<th>`s) rendered into the engine's `<thead>` in its own reactive effect — same `<table>` as the rows, so columns align natively, and interactive headers (sort state, etc.) update on their own.
+
+### Dependencies
+- Bumped `@ceriousdevtech/cerious-scroll` to `^1.0.6`: native table layout, `table.autoSizeColumns` (auto-sized but stable columns), trackpad-only wheel inertia, overlay-scrollbar gutter fix, and exact bottom snap.
+
 ## [1.0.4] - 2026-06-04
 
 ### Dependencies

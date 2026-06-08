@@ -45,6 +45,11 @@ export interface UseCeriousScrollOptions<TItem = unknown> {
   getItem?: (index: number) => TItem;
   /** Renders a single row to a Vue VNode. `item` is `undefined` with no data source. */
   renderItem: (item: TItem, index: number) => VNodeChild;
+  /**
+   * Table mode only: renders the header (a `<tr>` of `<th>`s) into the engine's
+   * `<thead>`. Reactive — re-renders when its dependencies change.
+   */
+  renderHeader?: () => VNodeChild;
   /** Options forwarded to `new CeriousScroll(...)` (read once, at creation). */
   options?: CeriousScrollOptions;
   /** Automatically render after scroll/resize/data changes. Default: `true`. */
@@ -85,7 +90,8 @@ export interface UseCeriousScrollResult {
 
 interface RowEntry {
   el: HTMLElement;
-  mount: HTMLDivElement;
+  // Our own wrapper <div> (a `display: contents` wrapper in table mode).
+  mount: HTMLElement;
   /** Stops the row's reactive render effect. */
   stop: () => void;
 }
@@ -133,6 +139,37 @@ export function useCeriousScroll<TItem = unknown>(
   let host: Host | null = null;
   const rows = new Map<number, RowEntry>();
   let savedPos: { currentElement: number; scrollOffset: number } | null = null;
+
+  // In table mode the engine's row element is a real <tr>. We still render into
+  // our own inner mount (isolated from the engine's <tr> recycling), but make
+  // that mount `display: contents` so its <td>s lay out as the row's cells.
+  // Engine options are read once at creation, so this is stable for the instance.
+  const tableMode = opts.options?.layout === 'table';
+
+  // Table-mode declarative header: render the `renderHeader` vnode into the
+  // engine's <thead> (captured via the table.header hook) in its own reactive
+  // effect, so an interactive header (sort state, etc.) updates on its own.
+  let headerStop: (() => void) | null = null;
+  const mountHeader = (thead: HTMLElement): void => {
+    if (!opts.renderHeader) return;
+    headerStop?.();
+    const ctx = appContext ?? null;
+    const scope = effectScope(true);
+    scope.run(() =>
+      watchEffect(
+        () => {
+          const content = opts.renderHeader!();
+          const children: VNodeChild[] = Array.isArray(content) ? content : [content];
+          for (const child of children) if (isVNode(child)) child.appContext = ctx;
+          const vnode = h(Fragment, children);
+          vnode.appContext = ctx;
+          renderVNode(vnode, thead);
+        },
+        { flush: 'sync' },
+      ),
+    );
+    headerStop = () => scope.stop();
+  };
 
   // Each rendered row gets its own reactive render effect (below) so that a
   // `renderItem`/slot which reads external reactive state (selection, expand
@@ -193,6 +230,8 @@ export function useCeriousScroll<TItem = unknown>(
 
   const unmountRow = (entry: RowEntry): void => {
     // Stop the reactive effect, tear down the Vue render tree, detach the mount.
+    // The mount is always our own element (a <div>, `display: contents` in table
+    // mode), so this is safe even after the engine has recycled the host <tr>.
     entry.stop();
     renderVNode(null, entry.mount);
     entry.mount.remove();
@@ -204,11 +243,19 @@ export function useCeriousScroll<TItem = unknown>(
     const height = container.clientHeight || container.offsetHeight || 0;
 
     const renderer: ElementRenderer = (index, el) => {
-      // The engine hands us a freshly-cleaned container. Render this row into a
-      // dedicated inner mount so the engine's own DOM recycling (textContent/
-      // innerHTML clearing) never tears nodes out from under Vue. Vue's
-      // `render()` mounts synchronously, so the engine measures a real height.
+      // The engine hands us a freshly-cleaned container. In div mode we render
+      // into a dedicated inner mount so the engine's own DOM recycling
+      // (textContent/innerHTML clearing) never tears nodes out from under Vue. In
+      // table mode the engine's element is the <tr> itself and the row's <td>s
+      // must render straight into it. Vue's `render()` mounts synchronously, so
+      // the engine measures a real height.
+      // Always render into a dedicated inner mount that Vue fully owns, so the
+      // engine's DOM recycling (textContent/innerHTML clearing, <tr> reuse across
+      // indices) never tears nodes out from under Vue. In table mode the engine's
+      // element is a real <tr>; the mount is a `display: contents` wrapper so its
+      // <td> children still lay out as the row's cells while staying isolated.
       const mount = document.createElement('div');
+      if (tableMode) mount.style.display = 'contents';
       mount.setAttribute(ROW_ATTR, String(index));
       el.appendChild(mount);
       const stop = mountReactiveRow(index, mount);
@@ -244,9 +291,11 @@ export function useCeriousScroll<TItem = unknown>(
       };
     }
 
-    // Unmount all row Vue trees before disposing the engine.
+    // Unmount all row Vue trees (and the header) before disposing the engine.
     rows.forEach((entry) => unmountRow(entry));
     rows.clear();
+    headerStop?.();
+    headerStop = null;
 
     current.contentEl.textContent = '';
     current.scroller.detachScrollbar(current.container);
@@ -266,6 +315,19 @@ export function useCeriousScroll<TItem = unknown>(
         if (isAutoRender()) render();
       },
     };
+
+    // Table mode: capture the engine-created <thead> and render the declarative
+    // header into it (also running any user-provided header hook).
+    if (tableMode && opts.renderHeader) {
+      const userHeader = userOptions.table?.header;
+      mergedOptions.table = {
+        ...userOptions.table,
+        header: (thead) => {
+          userHeader?.(thead);
+          mountHeader(thead);
+        },
+      };
+    }
 
     const total = resolveTotal(toValue(opts.totalElements), toValue(opts.items)?.length ?? null);
     const instance = new CeriousScrollEngine(container, total, mergedOptions);

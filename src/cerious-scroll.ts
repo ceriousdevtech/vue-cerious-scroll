@@ -67,6 +67,9 @@ export const CeriousScroll = defineComponent({
       items: () => props.items,
       getItem: props.getItem ? (index: number) => props.getItem!(index) : undefined,
       renderItem,
+      // Table mode: declarative header. Render the `#header` slot (a <tr> of
+      // <th>s) into the engine's <thead>. `undefined` when no slot is provided.
+      renderHeader: slots.header ? () => slots.header!() : undefined,
       // Engine options are consumed at creation; reading the prop once matches
       // that contract (remount via `:key` to apply new engine options).
       options: props.options,

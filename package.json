@@ -1,6 +1,6 @@
 {
   "name": "@ceriousdevtech/vue-cerious-scroll",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Vue 3 bindings for CeriousScroll — high-performance virtual scrolling with O(1) memory and no height estimation",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -57,7 +57,7 @@
     "demo:build": "vite build --config demo/vite.config.ts"
   },
   "dependencies": {
-    "@ceriousdevtech/cerious-scroll": "^1.0.5"
+    "@ceriousdevtech/cerious-scroll": "^1.0.6"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

@@ -57,7 +57,7 @@
     "demo:build": "vite build --config demo/vite.config.ts"
   },
   "dependencies": {
-    "@ceriousdevtech/cerious-scroll": "^1.0.6"
+    "@ceriousdevtech/cerious-scroll": "^1.0.7"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

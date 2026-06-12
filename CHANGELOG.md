@@ -5,6 +5,11 @@ All notable changes to vue-cerious-scroll will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2026-06-11
+
+### Changed
+- Updated the core engine dependency to `@ceriousdevtech/cerious-scroll@^1.0.7`, which fixes a scrollbar regression where dragging the thumb to the top could stop a few rows short of row 0 (a stale echo-suppression marker in the native scrollbar). No changes to the Vue wrapper's API.
+
 ## [1.0.5] - 2026-06-08
 
 ### Added

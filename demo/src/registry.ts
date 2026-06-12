@@ -8,6 +8,8 @@ import BasicDemo from './demos/BasicDemo.vue';
 import ComparisonDemo from './demos/ComparisonDemo.vue';
 import DataGridDemo from './demos/DataGridDemo.vue';
 import TableDemo from './demos/TableDemo.vue';
+import TableHeightsDemo from './demos/TableHeightsDemo.vue';
+import TableStreamDemo from './demos/TableStreamDemo.vue';
 import ChatDemo from './demos/ChatDemo.vue';
 import LogViewerDemo from './demos/LogViewerDemo.vue';
 import CodeViewerDemo from './demos/CodeViewerDemo.vue';
@@ -54,6 +56,20 @@ export const DEMOS: DemoMeta[] = [
     emoji: '🧮',
     blurb: "Real <table>/<tr>/<td> rows via layout:'table' — frozen header, aligned columns, single tbody transform. Virtualizes millions of rows with ~25 DOM rows.",
     component: TableDemo,
+  },
+  {
+    slug: 'table-heights',
+    title: 'Table · Wild Heights',
+    emoji: '🪜',
+    blurb: 'Native <table> stress test: every <tr> has a wildly different height — one-liners, walls of text, long lists, code blocks, tall banners. Each row is measured, never estimated.',
+    component: TableHeightsDemo,
+  },
+  {
+    slug: 'table-prepend',
+    title: 'Table · Prepend & Anchor',
+    emoji: '📡',
+    blurb: 'Inject variable-height rows at the TOP of the stream — live telemetry / chat-history backfill — and watch the scroll position stay cleanly anchored to the row you were reading.',
+    component: TableStreamDemo,
   },
   {
     slug: 'chat',

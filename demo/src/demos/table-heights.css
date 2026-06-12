@@ -1,0 +1,110 @@
+/* Native <table> mode with WILDLY variable row heights. Real <tr>/<td> rows,
+   each carrying very different content, all measured (never estimated). */
+
+.cs-heights-page .cs-table {
+  /* separate: borders belong to cells and travel with the transformed <tbody>. */
+  border-collapse: separate;
+  border-spacing: 0;
+  /* fixed + colgroup (table.columnWidths) keeps columns stable while the CONTENT
+     column wraps to wildly different line counts row-to-row. */
+  table-layout: fixed;
+  width: 100%;
+  font-size: 0.86rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.cs-heights-page .cs-table-scroll { flex: 1; min-height: 0; }
+.cs-heights-page .cs-table-scroll [data-cerious-scroll-content] { overflow-x: hidden; }
+
+.cs-heights-page .cs-table thead th {
+  text-align: left;
+  padding: 10px 14px;
+  background: #11141d; /* solid: rows translate underneath */
+  border-bottom: 2px solid var(--accent);
+  font-weight: 650;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.cs-heights-page .cs-table thead { background: #11141d; position: relative; z-index: 10; }
+
+/* vertical-align:top so the short ID/KIND/META cells sit at the TOP of a tall
+   row — makes the wild height differences obvious. */
+.cs-heights-page .cs-table tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.cs-heights-page .col-id,
+.cs-heights-page .col-kind,
+.cs-heights-page .col-meta { white-space: nowrap; }
+.cs-heights-page .col-body { white-space: normal; word-break: break-word; }
+.cs-heights-page .cs-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+.cs-heights-page .cs-table tbody tr:hover { background: rgba(31, 111, 235, 0.06); }
+
+.cs-heights-page .cell-id { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.cs-heights-page .kind-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.cs-heights-page .kind-line   { background: rgba(110,118,129,.18); color: #adbac7; }
+.cs-heights-page .kind-para   { background: rgba(31,111,235,.18);  color: #6cb6ff; }
+.cs-heights-page .kind-wall   { background: rgba(163,113,247,.18); color: #d2a8ff; }
+.cs-heights-page .kind-list   { background: rgba(35,134,54,.18);   color: #56d364; }
+.cs-heights-page .kind-code   { background: rgba(219,109,40,.18);  color: #f0883e; }
+.cs-heights-page .kind-banner { background: rgba(207,34,46,.18);   color: #ff7b72; }
+.cs-heights-page .kind-tags   { background: rgba(201,209,217,.14); color: #c9d1d9; }
+
+.cs-heights-page .body-title { font-weight: 600; margin: 0 0 4px; }
+.cs-heights-page .body-text  { margin: 0; line-height: 1.55; color: #c9d1d9; }
+.cs-heights-page .body-text + .body-text { margin-top: 8px; }
+
+.cs-heights-page .body-list { margin: 4px 0 0; padding-left: 20px; }
+.cs-heights-page .body-list li { line-height: 1.5; margin: 2px 0; color: #c9d1d9; }
+
+.cs-heights-page .body-code {
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  background: #0d1117;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #adbac7;
+  white-space: pre;
+  overflow-x: auto;
+}
+.cs-heights-page .body-banner {
+  margin: 4px 0 0;
+  border-radius: 8px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.cs-heights-page .body-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.cs-heights-page .body-tag {
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--line);
+  font-size: 0.78rem;
+  color: #c9d1d9;
+  white-space: nowrap;
+}
+.cs-heights-page .meta-row { display: block; margin: 1px 0; font-size: 0.8rem; }
+.cs-heights-page .meta-k { color: #6e7681; }
+.cs-heights-page .meta-v { color: #adbac7; }

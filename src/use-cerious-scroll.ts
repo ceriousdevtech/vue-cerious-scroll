@@ -126,12 +126,34 @@ function resolveTotal(
  *
  * Rows are rendered with the host component's `appContext`, so globally
  * registered components, directives, and installed plugins are available inside
- * each row.
+ * each row — and with the owning component instance's `provides`, so local
+ * `provide()` values reach `inject()` inside rows too (see below).
  */
 export function useCeriousScroll<TItem = unknown>(
   opts: UseCeriousScrollOptions<TItem>,
 ): UseCeriousScrollResult {
-  const appContext: AppContext | undefined = getCurrentInstance()?.appContext;
+  // Rows and the header are rendered as DETACHED vnode trees via Vue's
+  // `render(vnode, el)`. Vue treats each such root as parentless, so `inject()`
+  // inside them resolves ONLY against `vnode.appContext.provides` — i.e. only
+  // app-level provides (`app.provide()`), never the local `provide()` values of
+  // the component that owns the <CeriousScroll> slot. That made component-level
+  // provide/inject silently fail inside virtualized rows (issue #1).
+  //
+  // Fix: clone the app context but swap in the owning instance's `provides`.
+  // A component that calls `provide()` gets its own `provides` object whose
+  // prototype is the parent/app provides chain, so this single object carries
+  // BOTH the component's local provides and the app-level ones. (When the
+  // component provides nothing, `instance.provides` already *is* the inherited
+  // app/parent provides, so behavior is unchanged.)
+  const instance = getCurrentInstance();
+  // `provides` is an internal field on the component instance, not surfaced on
+  // the public `ComponentInternalInstance` type — read it through a narrow cast.
+  const instanceProvides = (
+    instance as unknown as { provides?: Record<string | symbol, any> } | null
+  )?.provides;
+  const appContext: AppContext | undefined = instance
+    ? { ...instance.appContext, provides: instanceProvides ?? instance.appContext.provides }
+    : undefined;
 
   const containerRef = ref<HTMLElement | null>(null);
   const scroller = shallowRef<CeriousScrollEngine | null>(null);
@@ -357,12 +379,6 @@ export function useCeriousScroll<TItem = unknown>(
     }
   };
 
-  const recreate = (): void => {
-    teardown(true);
-    const container = containerRef.value;
-    if (container) init(container);
-  };
-
   onMounted(() => {
     const container = containerRef.value;
     if (container) init(container);
@@ -374,19 +390,28 @@ export function useCeriousScroll<TItem = unknown>(
     teardown(false);
   });
 
-  // React to a change in the item *count*: recreate the engine (the index→item
-  // mapping may have shifted, so cached heights are untrustworthy). A same-count
-  // data change needs nothing here — each row's reactive effect re-renders on
-  // its own (it reads `items`/`getItem`), and the engine's content observer
-  // reflows if any height changed.
+  // React to a change in the item *count* by growing/shrinking the dataset IN
+  // PLACE — no recreate. updateTotalElements propagates the new count to every
+  // subsystem (navigation bounds, scrollbar track height, renderer, height
+  // cache) while leaving the DOM and any in-progress scrollbar drag intact, so a
+  // live append/prepend keeps the scroll position and a stable bottom index (no
+  // bouncing tail). The track lengthens, so re-sync the thumb afterwards. A
+  // same-count data change needs nothing here — each row's reactive effect
+  // re-renders on its own, and the engine's content observer reflows on height
+  // change.
   watch(
     () => [toValue(opts.totalElements), toValue(opts.items)] as const,
     () => {
       if (!host) return;
       const total = resolveTotal(toValue(opts.totalElements), toValue(opts.items)?.length ?? null);
-      if (host.scroller.totalElements !== total) {
-        recreate();
+      if (host.scroller.totalElements === total) return;
+      host.scroller.updateTotalElements(total);
+      // A shrink can leave the position past the new end — clamp it.
+      if (host.scroller.currentElement > total - 1) {
+        host.scroller.jumpToElement(total - 1);
       }
+      if (isAutoRender()) render();
+      host.scroller.syncScrollbar();
     },
   );
 

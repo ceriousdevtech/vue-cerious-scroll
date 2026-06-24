@@ -9,21 +9,23 @@ import {
 } from './table-stream.data';
 import './table-stream.css';
 
-// FIXED element count so the engine is never recreated on a prepend (growing
-// totalElements would tear down + rebuild the whole scroller every inject — that
-// read as scrollbar thrash). Content slides under a fixed window instead:
-// index i shows seq = baseSeq - i, and "prepending k" grows baseSeq by k while
-// we shift the scroll position by k to hold the anchor.
-const TOTAL = 2000;
+// The dataset GROWS in place as events arrive (updateTotalElements, no recreate
+// — an in-progress scrollbar drag survives), so the oldest event keeps a STABLE
+// bottom index: scrolling to the bottom doesn't bounce. Content is index-
+// addressed — index i shows seq = baseSeq - i (index 0 = newest = baseSeq,
+// index total-1 = oldest = seq 0) — and "prepending k" grows both total and
+// baseSeq by k while we shift the anchor by k to hold position.
+const INITIAL_TOTAL = 2000;
 
 const scroll = ref<InstanceType<typeof CeriousScroll> | null>(null);
 const engine = shallowRef<any>(null); // current engine instance (from @ready)
 
-const baseSeq = ref(TOTAL - 1);
+const total = ref(INITIAL_TOTAL); // grows as events arrive
+const baseSeq = ref(INITIAL_TOTAL - 1);
 const freshMinSeq = ref(-1);
 const follow = ref(false);
 const newAbove = ref(0);
-const seen = ref(TOTAL);
+const seen = ref(INITIAL_TOTAL);
 const stat = ref('scroll down, then inject to test anchoring');
 const live = ref(false);
 
@@ -56,22 +58,30 @@ function prepend(k: number) {
   const anchorOff = eng.scrollOffset;
   const wasAtTop = eng.currentElement === 0 && eng.scrollOffset <= 0;
 
+  const nextTotal = eng.totalElements + k;
   baseSeq.value += k;
   freshMinSeq.value = baseSeq.value - k + 1;
+
+  // Grow the dataset IN PLACE — no recreate, so a scrollbar drag survives and
+  // the oldest event keeps a stable bottom index (no bouncing tail).
+  eng.updateTotalElements(nextTotal);
 
   if (follow.value) {
     scroll.value?.jumpToElement(0); // ride the newest
   } else {
-    // Hold the same logical row (now at index anchorEl + k). jumpToElement syncs
-    // the scrollbar thumb; restore scrollOffset for a crisp sub-row hold;
-    // recalculate re-renders visible rows with the new baseSeq content + heights.
-    const target = Math.min(anchorEl + k, TOTAL - 1);
+    // Hold the same logical row (now at index anchorEl + k). jumpToElement
+    // re-anchors; restore scrollOffset for a crisp sub-row hold; recalculate
+    // re-renders visible rows with the new baseSeq content + heights.
+    const target = Math.min(anchorEl + k, nextTotal - 1);
     scroll.value?.jumpToElement(target);
     if (anchorOff > 0) eng.scrollOffset = anchorOff;
     if (!wasAtTop) newAbove.value += k;
   }
   scroll.value?.recalculate();
-  seen.value = baseSeq.value + 1;
+  // The track just got longer — re-pin the thumb (defers if mid-drag).
+  eng.syncScrollbar();
+  total.value = nextTotal; // keep the totalElements prop in sync
+  seen.value = nextTotal;
   refreshStat();
 }
 
@@ -121,7 +131,7 @@ onBeforeUnmount(() => { if (liveTimer) clearInterval(liveTimer); });
       <CeriousScroll
         ref="scroll"
         class="demo-scroll cs-table-scroll"
-        :total-elements="TOTAL"
+        :total-elements="total"
         :get-item="(i: number) => i"
         :options="tableOptions"
         @ready="onReady"

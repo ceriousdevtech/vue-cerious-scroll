@@ -1,4 +1,4 @@
-import { h, nextTick } from 'vue';
+import { defineComponent, h, inject, nextTick, provide } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -159,6 +159,64 @@ describe('<CeriousScroll>', () => {
 
     expect(renderItem).toHaveBeenCalled();
     expect(wrapper.element.querySelectorAll('.row').length).toBeGreaterThan(0);
+
+    wrapper.unmount();
+  });
+
+  // Regression: component-level `provide()` from the component that owns the
+  // <CeriousScroll> slot must reach `inject()` inside virtualized rows. Rows are
+  // rendered as detached vnode trees, so they previously saw only app-level
+  // provides (issue #1).
+  it('exposes the owner component\'s provide() values to inject() inside rows', async () => {
+    const Child = defineComponent({
+      name: 'Child',
+      setup() {
+        const value = inject<number>('number', -1);
+        return () => h('div', { class: 'row' }, `value:${value}`);
+      },
+    });
+
+    const Parent = defineComponent({
+      name: 'Parent',
+      setup() {
+        provide('number', 5);
+        return () =>
+          h(
+            CeriousScroll,
+            { totalElements: 1, getItem: () => 1, style: { height: '300px' } },
+            { item: () => h(Child) },
+          );
+      },
+    });
+
+    const wrapper = mount(Parent, { attachTo: document.body });
+    await flushFrames();
+
+    expect(wrapper.element.textContent).toContain('value:5');
+
+    wrapper.unmount();
+  });
+
+  // App-level provides (app.provide / global plugins) must keep working too.
+  it('exposes app-level provides to inject() inside rows', async () => {
+    const Child = defineComponent({
+      name: 'AppChild',
+      setup() {
+        const value = inject<string>('app-token', 'missing');
+        return () => h('div', { class: 'row' }, `token:${value}`);
+      },
+    });
+
+    const wrapper = mount(CeriousScroll, {
+      attachTo: document.body,
+      global: { provide: { 'app-token': 'ok' } },
+      props: { totalElements: 1, getItem: () => 1, style: { height: '300px' } },
+      slots: { item: () => h(Child) },
+    });
+
+    await flushFrames();
+
+    expect(wrapper.element.textContent).toContain('token:ok');
 
     wrapper.unmount();
   });

@@ -5,6 +5,14 @@ All notable changes to vue-cerious-scroll will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2026-06-24
+
+### Fixed
+- **`provide()` values from the component using `<CeriousScroll>` now reach `inject()` inside rows** ([#1](https://github.com/ceriousdevtech/vue-cerious-scroll/issues/1)). Rows (and the table header) are rendered as detached vnode trees via Vue's `render()`, so injection resolved only against the app context's `provides` — app-level/plugin provides worked, but local `provide()` on the owning component did not. The wrapper now renders rows with the owning component instance's `provides` (which prototype-chains to the app provides), so component-level, plugin, and app-level provide/inject all work inside virtualized rows. When the owner provides nothing, behavior is unchanged.
+
+### Changed
+- Updated the core engine dependency to `@ceriousdevtech/cerious-scroll@^1.0.8` (native-scrollbar drag rendering is now coalesced to one render per frame, with no per-row layout thrash on fast drags).
+
 ## [1.0.6] - 2026-06-11
 
 ### Changed

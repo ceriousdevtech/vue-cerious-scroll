@@ -113,6 +113,55 @@ describe('<CeriousScroll>', () => {
     wrapper.unmount();
   });
 
+  it('renders declarative Masonry cards and exposes card navigation', async () => {
+    const wrapper = mount(CeriousScroll, {
+      attachTo: document.body,
+      props: {
+        totalElements: 100,
+        getItem: (index: number) => index,
+        options: {
+          layout: 'masonry',
+          attachScrollbar: false,
+          masonry: { columns: 2, segmentSize: 8, getItemHeight: () => 60 },
+        },
+        style: { height: '300px' },
+      },
+      slots: { item: ({ item }: { item: number }) => h('div', { class: 'masonry-row' }, `Card ${item}`) },
+    });
+    await flushFrames();
+
+    const vm = wrapper.vm as unknown as {
+      jumpToItem: (index: number) => void;
+      scroller: { masonryDeterminism: string } | null;
+    };
+    expect(wrapper.element.querySelectorAll('.masonry-row').length).toBeGreaterThan(0);
+    expect(vm.scroller?.masonryDeterminism).toBe('canonical');
+    vm.jumpToItem(50);
+    await flushFrames();
+    expect(wrapper.element.textContent).toContain('Card 50');
+    wrapper.unmount();
+  });
+
+  it('measures dynamic Masonry cards through the Vue probe bridge', async () => {
+    const wrapper = mount(CeriousScroll, {
+      attachTo: document.body,
+      props: {
+        totalElements: 100,
+        getItem: (index: number) => index,
+        options: {
+          layout: 'masonry',
+          attachScrollbar: false,
+          masonry: { columns: 2, segmentSize: 4, estimatedItemHeight: 80 },
+        },
+        style: { height: '300px' },
+      },
+      slots: { item: ({ item }: { item: number }) => h('div', { class: 'dynamic-card' }, `Dynamic ${item}`) },
+    });
+    await flushFrames();
+    expect(wrapper.element.querySelectorAll('.dynamic-card').length).toBeGreaterThan(0);
+    wrapper.unmount();
+  });
+
   it('re-renders row content when the items reference changes', async () => {
     const wrapper = mount(CeriousScroll, {
       attachTo: document.body,

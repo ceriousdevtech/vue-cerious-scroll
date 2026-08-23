@@ -5,12 +5,9 @@
  */
 
 import { defineComponent, h, type PropType, type VNodeChild } from 'vue';
-import type {
-  CeriousScrollOptions,
-  MeasuredViewportRange,
-} from '@ceriousdevtech/cerious-scroll';
+import type { MeasuredViewportRange } from '@ceriousdevtech/cerious-scroll';
 
-import { useCeriousScroll } from './use-cerious-scroll';
+import { useCeriousScroll, type CeriousScrollOptions } from './use-cerious-scroll';
 import type { CeriousViewportChangeDetail } from './viewport-change';
 
 /**
@@ -84,6 +81,7 @@ export const CeriousScroll = defineComponent({
       scroller: api.scroller,
       render: api.render,
       jumpToElement: api.jumpToElement,
+      jumpToItem: api.jumpToItem,
       scrollToPercentage: api.scrollToPercentage,
       reset: api.reset,
       recalculate: api.recalculate,

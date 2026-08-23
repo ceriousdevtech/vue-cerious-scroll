@@ -25,8 +25,9 @@ import {
 } from 'vue';
 import {
   CeriousScroll as CeriousScrollEngine,
-  type CeriousScrollOptions,
+  type CeriousScrollOptions as CoreCeriousScrollOptions,
   type ElementRenderer,
+  type MasonryOptions,
   type MeasuredViewportRange,
 } from '@ceriousdevtech/cerious-scroll';
 
@@ -35,6 +36,14 @@ import {
   subscribeViewportChange,
   type CeriousViewportChangeDetail,
 } from './viewport-change';
+
+/** Engine options adapted for Vue-owned Masonry rendering. */
+export type CeriousScrollOptions = Omit<CoreCeriousScrollOptions, 'masonry'> & {
+  masonry?: Omit<MasonryOptions, 'renderItem'> & {
+    /** Accepted for backward compatibility; Vue supplies the active renderer. */
+    renderItem?: MasonryOptions['renderItem'];
+  };
+};
 
 export interface UseCeriousScrollOptions<TItem = unknown> {
   /** Total number of items. Falls back to `items.length` when omitted. */
@@ -71,6 +80,8 @@ export interface UseCeriousScrollResult {
   render: () => MeasuredViewportRange | null;
   /** Jump to an element index, then render. */
   jumpToElement: (index: number) => MeasuredViewportRange | null;
+  /** Masonry mode only: jump to a card index, then render. */
+  jumpToItem: (index: number, screenOffset?: number) => MeasuredViewportRange | null;
   /** Scroll to a percentage (0..100), then render. */
   scrollToPercentage: (percentage: number) => MeasuredViewportRange | null;
   /** Reset to the top, then render. */
@@ -167,6 +178,7 @@ export function useCeriousScroll<TItem = unknown>(
   // that mount `display: contents` so its <td>s lay out as the row's cells.
   // Engine options are read once at creation, so this is stable for the instance.
   const tableMode = opts.options?.layout === 'table';
+  const masonryMode = opts.options?.layout === 'masonry';
 
   // Table-mode declarative header: render the `renderHeader` vnode into the
   // engine's <thead> (captured via the table.header hook) in its own reactive
@@ -259,6 +271,38 @@ export function useCeriousScroll<TItem = unknown>(
     entry.mount.remove();
   };
 
+  const renderMasonryItem = (index: number, el: HTMLElement): void => {
+    // Each engine card keeps one Vue-owned mount. The offscreen dynamic-height
+    // probe gets a short-lived mount that is disposed in a microtask after the
+    // core has synchronously read its height.
+    let mount = el.querySelector<HTMLElement>(`[${ROW_ATTR}]`);
+    if (!mount) {
+      mount = document.createElement('div');
+      el.appendChild(mount);
+    }
+    mount.setAttribute(ROW_ATTR, String(index));
+
+    if (el.dataset.ceriousMasonry === 'probe') {
+      const stop = mountReactiveRow(index, mount);
+      queueMicrotask(() => {
+        stop();
+        renderVNode(null, mount!);
+      });
+      return;
+    }
+
+    rows.forEach((entry, oldIndex) => {
+      if (entry.el === el && oldIndex !== index) {
+        entry.stop();
+        rows.delete(oldIndex);
+      }
+    });
+    const existing = rows.get(index);
+    if (existing?.mount === mount) return;
+    const stop = mountReactiveRow(index, mount);
+    rows.set(index, { el, mount, stop });
+  };
+
   const render = (): MeasuredViewportRange | null => {
     if (!host) return null;
     const { scroller: instance, contentEl, container } = host;
@@ -287,9 +331,12 @@ export function useCeriousScroll<TItem = unknown>(
     const range = instance.renderViewport(height, contentEl, renderer);
 
     // Drop rows the engine no longer renders and unmount their Vue trees.
-    const active = new Set(instance.getRenderedIndices());
+    const active = masonryMode ? null : new Set(instance.getRenderedIndices());
     rows.forEach((entry, index) => {
-      if (!active.has(index)) {
+      const detached = masonryMode
+        ? !entry.el.isConnected || entry.el.dataset.elementIndex !== String(index)
+        : !active!.has(index);
+      if (detached) {
         unmountRow(entry);
         rows.delete(index);
       }
@@ -319,24 +366,35 @@ export function useCeriousScroll<TItem = unknown>(
     headerStop?.();
     headerStop = null;
 
-    current.contentEl.textContent = '';
     current.scroller.detachScrollbar(current.container);
     current.scroller.dispose();
+    current.contentEl.textContent = '';
 
     scroller.value = null;
   };
 
   const init = (container: HTMLElement): void => {
-    const contentEl = ensureContentElement(container);
     const userOptions = opts.options ?? {};
+    const contentEl = masonryMode ? container : ensureContentElement(container);
     const userOnScroll = userOptions.onScroll;
-    const mergedOptions: CeriousScrollOptions = {
-      ...userOptions,
+    const { masonry: userMasonry, ...baseOptions } = userOptions;
+    const mergedOptions: CoreCeriousScrollOptions = {
+      ...baseOptions,
       onScroll: () => {
         userOnScroll?.();
         if (isAutoRender()) render();
       },
     };
+
+    if (masonryMode) {
+      if (!userMasonry) {
+        throw new Error("useCeriousScroll: layout 'masonry' requires `options.masonry`.");
+      }
+      mergedOptions.masonry = {
+        ...userMasonry,
+        renderItem: renderMasonryItem,
+      };
+    }
 
     // Table mode: capture the engine-created <thead> and render the declarative
     // header into it (also running any user-provided header hook).
@@ -404,7 +462,14 @@ export function useCeriousScroll<TItem = unknown>(
     () => {
       if (!host) return;
       const total = resolveTotal(toValue(opts.totalElements), toValue(opts.items)?.length ?? null);
-      if (host.scroller.totalElements === total) return;
+      const current = masonryMode ? host.scroller.itemCount : host.scroller.totalElements;
+      if (current === total) return;
+      if (masonryMode) {
+        const container = containerRef.value;
+        teardown(false);
+        if (container) init(container);
+        return;
+      }
       host.scroller.updateTotalElements(total);
       // A shrink can leave the position past the new end — clamp it.
       if (host.scroller.currentElement > total - 1) {
@@ -418,6 +483,12 @@ export function useCeriousScroll<TItem = unknown>(
   const jumpToElement = (index: number): MeasuredViewportRange | null => {
     if (!host) return null;
     host.scroller.jumpToElement(index);
+    return render();
+  };
+
+  const jumpToItem = (index: number, screenOffset = 0): MeasuredViewportRange | null => {
+    if (!host) return null;
+    host.scroller.jumpToItem(index, screenOffset);
     return render();
   };
 
@@ -449,6 +520,7 @@ export function useCeriousScroll<TItem = unknown>(
     scroller,
     render,
     jumpToElement,
+    jumpToItem,
     scrollToPercentage,
     reset,
     recalculate,

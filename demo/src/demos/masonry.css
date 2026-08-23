@@ -1,0 +1,10 @@
+.masonry-scroll [data-cerious-masonry="content"] { padding: 14px 14px 0; }
+.masonry-card { height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.masonry-card--media { position: relative; }
+.masonry-card__fill { position: absolute; inset: 0; }
+.masonry-card__label { position: absolute; left: 10px; bottom: 8px; color: white; font-size: .75rem; font-variant-numeric: tabular-nums; text-shadow: 0 1px 3px rgba(0,0,0,.75); }
+.masonry-card--dynamic { height: auto; padding: 12px 14px; }
+.masonry-card__kind { margin-bottom: 6px; color: var(--muted); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }
+.masonry-card__id { float: right; font-variant-numeric: tabular-nums; }
+.masonry-card p { margin: 0; color: #c9d1d9; font-size: .84rem; line-height: 1.5; }
+.masonry-card__band { margin-top: 8px; border-radius: 6px; }

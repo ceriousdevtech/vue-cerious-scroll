@@ -1,6 +1,6 @@
 {
   "name": "@ceriousdevtech/vue-cerious-scroll",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Vue 3 bindings for CeriousScroll — virtualized lists, native tables, and Masonry grids",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -58,7 +58,7 @@
     "demo:build": "vite build --config demo/vite.config.ts"
   },
   "dependencies": {
-    "@ceriousdevtech/cerious-scroll": "^1.1.0"
+    "@ceriousdevtech/cerious-scroll": "^1.1.1"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

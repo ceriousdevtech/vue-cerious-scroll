@@ -5,6 +5,15 @@ All notable changes to vue-cerious-scroll will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-08-23
+
+### Added
+- Masonry real-content demo: network images, composed Vue card components, and a per-card carousel over 50,000 items. Demonstrates the three constraints recycled cards impose — media space reserved from intrinsic dimensions, card height enforced rather than estimated, and per-card UI state held outside component state and keyed by card index so it survives a card leaving the window.
+- Demo image handling shows the practices that matter with virtualization: no `loading="lazy"` (the window is already the lazy loader), an instant placeholder colour behind each reserved box, a bounded low-priority prefetch window, and bucketed request widths so a resizing CDN can cache them.
+
+### Changed
+- Updated `@ceriousdevtech/cerious-scroll` to `^1.1.1`.
+
 ## [1.1.0] - 2026-08-22
 
 ### Added

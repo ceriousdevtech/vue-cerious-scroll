@@ -12,6 +12,7 @@ import TableHeightsDemo from './demos/TableHeightsDemo.vue';
 import TableStreamDemo from './demos/TableStreamDemo.vue';
 import MasonryDemo from './demos/MasonryDemo.vue';
 import MasonryDynamicDemo from './demos/MasonryDynamicDemo.vue';
+import MasonryGalleryDemo from './demos/MasonryGalleryDemo.vue';
 import ChatDemo from './demos/ChatDemo.vue';
 import LogViewerDemo from './demos/LogViewerDemo.vue';
 import CodeViewerDemo from './demos/CodeViewerDemo.vue';
@@ -86,6 +87,13 @@ export const DEMOS: DemoMeta[] = [
     emoji: '🪜',
     blurb: 'Unpredictable Vue card content measured from the DOM with constant-time far jumps and locally deterministic placement.',
     component: MasonryDynamicDemo,
+  },
+  {
+    slug: 'masonry-gallery',
+    title: 'Masonry · Real Content',
+    emoji: '🖼️',
+    blurb: 'Network images, a composed Vue card and a carousel per card — virtualized. Shows the patterns recycled cards demand: reserved media space, enforced card height, and state kept outside the component.',
+    component: MasonryGalleryDemo,
   },
   {
     slug: 'chat',

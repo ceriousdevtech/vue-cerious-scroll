@@ -5,6 +5,11 @@ All notable changes to vue-cerious-scroll will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-08-23
+
+### Fixed
+- Raised `@ceriousdevtech/cerious-scroll` to `^1.1.2`, which repairs importing this package in plain Node. Core 1.1.1 shipped an extensionless re-export in `dist/types/index.js`; Node's ESM resolver does not add file extensions, so any import of this wrapper failed with `ERR_MODULE_NOT_FOUND`. The wrapper's own bundle was never at fault — it inherited the failure through the dependency. The previous `^1.1.1` range still permitted the broken version, so the floor is raised rather than relying on resolution picking the newer release.
+
 ## [1.1.1] - 2026-08-23
 
 ### Added

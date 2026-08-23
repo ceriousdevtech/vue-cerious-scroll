@@ -10,6 +10,8 @@ import DataGridDemo from './demos/DataGridDemo.vue';
 import TableDemo from './demos/TableDemo.vue';
 import TableHeightsDemo from './demos/TableHeightsDemo.vue';
 import TableStreamDemo from './demos/TableStreamDemo.vue';
+import MasonryDemo from './demos/MasonryDemo.vue';
+import MasonryDynamicDemo from './demos/MasonryDynamicDemo.vue';
 import ChatDemo from './demos/ChatDemo.vue';
 import LogViewerDemo from './demos/LogViewerDemo.vue';
 import CodeViewerDemo from './demos/CodeViewerDemo.vue';
@@ -70,6 +72,20 @@ export const DEMOS: DemoMeta[] = [
     emoji: '📡',
     blurb: 'Inject variable-height rows at the TOP of the stream — live telemetry / chat-history backfill — and watch the scroll position stay cleanly anchored to the row you were reading.',
     component: TableStreamDemo,
+  },
+  {
+    slug: 'masonry',
+    title: 'Masonry · Canonical',
+    emoji: '🧱',
+    blurb: 'Responsive Vue card columns with computed heights, reproducible placement, and only the visible cards mounted.',
+    component: MasonryDemo,
+  },
+  {
+    slug: 'masonry-dynamic',
+    title: 'Masonry · Dynamic',
+    emoji: '🪜',
+    blurb: 'Unpredictable Vue card content measured from the DOM with constant-time far jumps and locally deterministic placement.',
+    component: MasonryDynamicDemo,
   },
   {
     slug: 'chat',

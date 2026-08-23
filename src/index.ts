@@ -12,6 +12,7 @@ export { useCeriousScroll } from './use-cerious-scroll';
 export type {
   UseCeriousScrollOptions,
   UseCeriousScrollResult,
+  CeriousScrollOptions,
 } from './use-cerious-scroll';
 
 export type { CeriousViewportChangeDetail } from './viewport-change';
@@ -20,7 +21,6 @@ export type { CeriousViewportChangeDetail } from './viewport-change';
 // <CeriousScroll> component) plus its public types, for advanced usage.
 export { CeriousScroll as CeriousScrollEngine } from '@ceriousdevtech/cerious-scroll';
 export type {
-  CeriousScrollOptions,
   KeyboardNavigationOptions,
   TouchNavigationOptions,
   WheelNavigationOptions,
@@ -28,4 +28,7 @@ export type {
   ElementHeightCalculator,
   ScrollResult,
   MeasuredViewportRange,
+  HeightProvider,
+  MasonryDeterminism,
+  MasonryOptions,
 } from '@ceriousdevtech/cerious-scroll';

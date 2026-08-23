@@ -109,7 +109,7 @@ const { containerRef } = useCeriousScroll({
 | `totalElements` | `number` | Total item count. Required if `items` is omitted. |
 | `getItem` | `(index) => TItem` | Lazy item getter for large/sparse datasets. |
 | `renderItem` | `(item, index) => VNodeChild` | Render prop alternative to the `#item` scoped slot. |
-| `options` | `CeriousScrollOptions` | Engine options (keyboard/touch/wheel/scrollbar/etc.). Read once at creation. |
+| `options` | `CeriousScrollOptions` | Engine options. Masonry's DOM callback is supplied by the wrapper. Read once at creation. |
 | `autoRender` | `boolean` | Re-render on scroll/resize/data changes. Default `true`. |
 
 The row is provided by the **`#item` scoped slot** (`{ item, index }`) or the
@@ -130,6 +130,7 @@ component — they fall through onto the scroll container (set a height!).
 ```ts
 const scroll = ref<InstanceType<typeof CeriousScroll> | null>(null);
 // scroll.value?.jumpToElement(500);
+// scroll.value?.jumpToItem(500); // Masonry cards
 // scroll.value?.scrollToPercentage(50);
 // scroll.value?.reset();
 // scroll.value?.render();
@@ -138,6 +139,40 @@ const scroll = ref<InstanceType<typeof CeriousScroll> | null>(null);
 ```
 
 ---
+
+## Masonry layout
+
+Set `layout: 'masonry'`; the wrapper renders the `#item` slot into each core
+Masonry card, so no imperative DOM callback is exposed:
+
+```vue
+<CeriousScroll
+  ref="scroll"
+  class="gallery"
+  :total-elements="photos.length"
+  :get-item="(index) => photos[index]"
+  :options="{
+    layout: 'masonry',
+    masonry: {
+      getItemHeight: (_index, width) => width * 0.75 + 48,
+      targetColumnWidth: 280,
+      gap: 16
+    }
+  }"
+>
+  <template #item="{ item: photo, index }">
+    <PhotoCard :photo="photo" :index="index" />
+  </template>
+</CeriousScroll>
+```
+
+Omit `getItemHeight` for dynamic DOM measurement. Vue creates a short-lived
+offscreen render tree for measurement and disposes it after the synchronous
+height read; visible cards remain reactive Vue trees with provide/inject and
+event handling.
+
+Use `scroll.value?.jumpToItem(index, screenOffset?)` for card navigation. The
+demo gallery includes canonical and dynamic Masonry pages.
 
 ## Table layout
 
@@ -176,8 +211,8 @@ Pass `:options="{ layout: 'table' }"` to render real `<table>` / `<tr>` / `<td>`
   the engine's built-in `ResizeObserver`.
 - **`options` are read at creation.** Changing `options` after mount has no
   effect; remount (e.g. with a `:key`) to apply new engine options.
-- **Changing the item count** recreates the engine internally (scroll position
-  is preserved). Mutating items without changing the count just re-renders the
+- **Changing the item count** updates lists/tables in place. Masonry recreates
+  its card-count-derived segment layout. Mutating items without changing the count just re-renders the
   content in place (cheap; Vue patches each row, so focus/selection survive) — it
   does **not** discard cached heights, so editable grids that produce a new
   `items` array on every edit don't trigger a full viewport re-measure.

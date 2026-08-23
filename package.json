@@ -1,7 +1,7 @@
 {
   "name": "@ceriousdevtech/vue-cerious-scroll",
-  "version": "1.0.7",
-  "description": "Vue 3 bindings for CeriousScroll — high-performance virtual scrolling with O(1) memory and no height estimation",
+  "version": "1.1.0",
+  "description": "Vue 3 bindings for CeriousScroll — virtualized lists, native tables, and Masonry grids",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -45,6 +45,7 @@
     "large-lists",
     "data-grid",
     "variable-height",
+    "masonry",
     "o1-memory",
     "cerious-scroll"
   ],
@@ -57,7 +58,7 @@
     "demo:build": "vite build --config demo/vite.config.ts"
   },
   "dependencies": {
-    "@ceriousdevtech/cerious-scroll": "^1.0.8"
+    "@ceriousdevtech/cerious-scroll": "^1.1.0"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

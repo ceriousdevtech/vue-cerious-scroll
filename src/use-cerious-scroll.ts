@@ -433,7 +433,16 @@ export function useCeriousScroll<TItem = unknown>(
     opts.onReady?.(instance);
 
     if (isAutoRender()) {
-      requestAnimationFrame(() => render());
+      requestAnimationFrame(() => {
+        render();
+        // A first pass can land before the container has its final laid-out
+        // height: an async stylesheet, a web font, or a parent flex box still
+        // settling. The engine then fills whatever height it measured, which
+        // over-renders, and the surplus rows stay resident until the next
+        // scroll or resize. Re-measure on the following frame so a pre-layout
+        // reading corrects itself.
+        requestAnimationFrame(() => render());
+      });
     }
   };
 

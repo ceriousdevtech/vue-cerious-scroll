@@ -539,3 +539,139 @@ body {
     padding: 8px;
   }
 }
+
+
+/* ---- Benchmark feature block ----
+   The benchmark is deliberately not one of the demo cards. It is a different
+   kind of thing: the demos show what the scroller does, this measures it. */
+
+.feature {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 34px;
+  padding: 26px 28px;
+  border: 1px solid rgba(120, 243, 210, .3);
+  border-radius: 1.1rem;
+  text-decoration: none;
+  color: inherit;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(120, 243, 210, .16), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(140, 183, 255, .16), transparent 60%),
+    rgba(255, 255, 255, .05);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.feature:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: rgba(120, 243, 210, .7);
+}
+
+.feature__main {
+  flex: 1 1 26rem;
+  min-width: 0;
+}
+
+.feature__tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #061019;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.feature__title {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.feature__blurb {
+  margin: 0 0 14px;
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.feature__cta {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.feature__facts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.feature__facts div {
+  padding: 12px 15px;
+  border: 1px solid var(--line);
+  border-radius: .8rem;
+  background: rgba(8, 11, 18, .4);
+}
+
+.feature__facts b {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.feature__facts span {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* The benchmark is not a demo, so its link is set apart from the others. */
+.topbar__link--accent {
+  color: var(--accent);
+  font-weight: 650;
+  border: 1px solid rgba(120, 243, 210, .35);
+  padding: 5px 10px;
+}
+
+.topbar__link--accent:hover {
+  color: #061019;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .feature {
+    gap: 18px;
+    padding: 20px 18px;
+    margin-bottom: 26px;
+  }
+  .feature__title {
+    font-size: 1.2rem;
+  }
+  .feature__blurb {
+    font-size: 0.85rem;
+  }
+  .feature__facts {
+    width: 100%;
+  }
+  .feature__facts div {
+    flex: 1 1 8rem;
+  }
+  .gallery__grid {
+    grid-template-columns: 1fr;
+  }
+}

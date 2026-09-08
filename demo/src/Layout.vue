@@ -6,6 +6,7 @@ import FpsMeter from './FpsMeter.vue';
 
 const route = useRoute();
 const onGallery = computed(() => route.path === '/' || route.path === '');
+const onBenchmark = computed(() => route.path === '/benchmark');
 </script>
 
 <template>
@@ -17,6 +18,7 @@ const onGallery = computed(() => route.path === '/' || route.path === '');
       <div class="topbar__spacer" />
       <FpsMeter />
       <router-link v-if="!onGallery" class="topbar__link" to="/">← All demos</router-link>
+      <router-link v-if="!onBenchmark" class="topbar__link topbar__link--accent" to="/benchmark">Benchmark</router-link>
       <a
         class="topbar__link"
         href="https://www.npmjs.com/package/@ceriousdevtech/vue-cerious-scroll"

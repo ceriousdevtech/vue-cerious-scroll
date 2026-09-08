@@ -7,6 +7,12 @@ import { createApp } from 'vue';
 import './app.css';
 
 import App from './App.vue';
+import { initAnalytics, trackPageView } from './analytics';
 import { router } from './router';
 
 createApp(App).use(router).mount('#app');
+
+initAnalytics();
+// Hash routing means GA4's automatic page_view only ever sees the landing page,
+// so every route change is reported explicitly.
+router.afterEach((to) => trackPageView(to.path));

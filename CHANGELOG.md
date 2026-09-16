@@ -5,6 +5,19 @@ All notable changes to vue-cerious-scroll will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4] - 2026-09-16
+
+### Fixed
+- Raised `@ceriousdevtech/cerious-scroll` to `^1.1.4`, which stops dynamic-height
+  Masonry re-packing its columns while the viewer scrolls. Cards visibly jumped
+  between columns mid-scroll; four separate causes on the core's scroll path fed
+  it — a background chain that probe-measured the whole dataset, a card
+  remounting after a height-cache eviction being read as a card that had grown, a
+  relayout anchoring where the next frame had to immediately re-anchor, and
+  scrolling up out of an anchored range re-anchoring once per segment. The core's
+  frontier chain can now grow backwards, so scrolling up reveals new content
+  instead of re-flowing the grid already on screen. No wrapper API change.
+
 ## [1.1.3] - 2026-08-25
 
 ### Changed

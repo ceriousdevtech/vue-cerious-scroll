@@ -5,6 +5,19 @@ All notable changes to vue-cerious-scroll will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5] - 2026-09-16
+
+### Changed
+- Raised `@ceriousdevtech/cerious-scroll` to `^1.1.5`. Wheel input is now
+  scrolled by the browser rather than eased in JavaScript, so wheel, trackpad
+  and touch all get the platform's own physics — the previous curve was fitted
+  to macOS and never matched Windows. The core also builds the content element
+  the native surface needs when a host has none and wraps a nested one where a
+  host has it buried, so this applies to every host rather than only those whose
+  markup happened to suit it. Dynamic-height Masonry no longer re-packs its
+  columns mid-scroll. No wrapper API change; `wheel.smooth`,
+  `wheel.smoothFactor` and `wheel.notchThresholdPx` are now deprecated no-ops.
+
 ## [1.1.4] - 2026-09-16
 
 ### Fixed
